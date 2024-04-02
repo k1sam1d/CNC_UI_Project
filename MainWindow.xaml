@@ -1,0 +1,137 @@
+<Window x:Class="LR4_bbiad.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LR4_bbiad"
+        mc:Ignorable="d"
+        Title="ЛР4 Базы, банки и анализ данных" Height="1024" Width="1440" Loaded="Window_Loaded"
+        xmlns:ScottPlot="clr-namespace:ScottPlot;assembly=ScottPlot.WPF" ResizeMode="CanMinimize">
+    <ScrollViewer>
+        <Grid x:Name="base">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="9*"/>
+                <ColumnDefinition Width="7*"></ColumnDefinition>
+                <ColumnDefinition Width="4*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="11*"></RowDefinition>
+                <RowDefinition Height="23*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <StackPanel x:Name="название_проекта" Grid.Column="2" Grid.Row="0" Background="#FFFFD27F">
+                <Label Content="ЛР4" FontSize="18" FontWeight="Bold" FontFamily="arial" FontStyle="Italic" HorizontalAlignment="Center" Margin="0,10,0,10"></Label>
+            </StackPanel>
+            <StackPanel x:Name="кнопки_навигации" Grid.Column="2" Grid.Row="1" Background="#FFFDECCC">
+                <Button HorizontalAlignment="Center" Width="220" Margin="0,10,0,10" Height="40">
+                    <StackPanel Orientation="Horizontal" Width="210">
+                        <Image Source="Resources/image 5.png" Width="35" Height="35" HorizontalAlignment="Left"></Image>
+                        <StackPanel VerticalAlignment="Center" Width="175">
+                            <TextBlock HorizontalAlignment="Right" FontSize="16" FontFamily="arial" FontStyle="Italic"><Run Text="Главная"/></TextBlock>
+                        </StackPanel>
+                    </StackPanel>
+                </Button>
+                <Button HorizontalAlignment="Center" Width="220" Margin="0,10,0,10" Height="40" Background="#FFCF00CF">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="Resources/image 6.png" Width="35" Height="35" HorizontalAlignment="Left"></Image>
+                        <StackPanel VerticalAlignment="Center" Width="175">
+                            <TextBlock HorizontalAlignment="Right" FontSize="16" FontFamily="arial" FontStyle="Italic"><Run Text="Мониторинг"/></TextBlock>
+                        </StackPanel>
+                    </StackPanel>
+                </Button>
+                <Button HorizontalAlignment="Center" Width="220" Margin="0,10,0,10" Height="40">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="Resources/image 7.png" Width="35" Height="35" HorizontalAlignment="Left"></Image>
+                        <StackPanel VerticalAlignment="Center" Width="175">
+                            <TextBlock HorizontalAlignment="Right" FontSize="16" FontFamily="arial" FontStyle="Italic"><Run Text="Анализ"/></TextBlock>
+                        </StackPanel>
+                    </StackPanel>
+                </Button>
+                <Button HorizontalAlignment="Center" Width="220" Margin="0,10,0,10" Height="40">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="Resources/image 8.png" Width="35" Height="35" HorizontalAlignment="Left"></Image>
+                        <StackPanel VerticalAlignment="Center" Width="175">
+                            <TextBlock HorizontalAlignment="Right" FontSize="16" FontFamily="arial" FontStyle="Italic"><Run Text="Отчёт"/></TextBlock>
+                        </StackPanel>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+            <StackPanel x:Name="выбор_станка" Grid.Column="2" Grid.Row="2" Background="#FFFDECCC">
+                <ComboBox x:Name="тип_станка" Width="220" IsEditable="True" Text="Выберите тип станка..." IsReadOnly="True" Margin="0,10,0,10" DropDownClosed="тип_станка_DropDownClosed">
+                    <ComboBoxItem Content="Станок с ЧПУ токарного типа с дополнительной фрезерной головой"/>
+                    <ComboBoxItem Content="Пятикоординатный станок с ЧПУ фрезерного типа с поворотной головой и поворотным столом"/>
+                    <ComboBoxItem Content="Пятикоординатный станок с ЧПУ фрезерного типа с поворотным столом"/>
+                </ComboBox>
+                <ComboBox x:Name="название_станка" Width="220" IsEditable="True" Text="Выберите название станка..." IsReadOnly="True" Margin="0,10,0,10" IsEnabled="False" DropDownClosed="название_станка_DropDownClosed"/>
+                <Image x:Name="изображение_станка" Source="Resources/def.png" Width="220" Height="220" Margin="0,10,0,10"></Image>
+                <Image Source="Resources/оси-режим.png" Width="220" Height="85" Margin="0,10,0,10"></Image>
+                <ComboBox x:Name="состояние_привода" Width="220" IsEditable="True" Text="Выберите привод для оси..." IsReadOnly="True" Margin="0,10,0,10" DropDownClosed="состояние_привода_DropDownClosed"/>
+                <Image x:Name="лампочка_готовности" Source="Resources/grey light.png" Width="50" Height="50" Margin="0,10,0,10"/>
+            </StackPanel>
+            <StackPanel x:Name="полное_название" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Background="#FFFFD27F">
+                <Label x:Name="label1" Content="Станок не выбран..." FontSize="18" FontWeight="Bold" FontFamily="arial" FontStyle="Italic" HorizontalAlignment="Center" Margin="0,10,0,10"></Label>
+            </StackPanel>
+            <StackPanel x:Name="график_времени" Grid.Column="0" Grid.Row="1" Background="#FFFDECCC">
+                <Label Content="График времени работы станка за неделю" FontSize="18" FontWeight="Bold" FontFamily="arial" FontStyle="Italic" HorizontalAlignment="Center" Margin="0,10,0,10"></Label>
+                <Button x:Name="отобразить_график" HorizontalAlignment="Center" Width="250" Margin="10,200,10,10" Height="25" Click="отобразить_график_Click">
+                    <TextBlock FontFamily="arial" FontStyle="Italic"><Run Text="Отобразить график"/></TextBlock>
+                </Button>
+            </StackPanel>
+            <StackPanel x:Name="значения_компонентов" Grid.Column="1" Grid.Row="1" Background="#FFFDECCC">
+                <Label Content="Текущие значения компонентов" FontSize="18" FontWeight="Bold" FontFamily="arial" FontStyle="Italic" HorizontalAlignment="Center" Margin="0,10,0,10"></Label>
+                <Button x:Name="двигатели"  HorizontalAlignment="Right" Width="250" Margin="10,10,10,10" Height="25" Click="двигатели_Click">
+                    <TextBlock FontFamily="arial"><Run Text="Двигатели"/></TextBlock>
+                </Button>
+                <Button x:Name="активные_сообщения"  HorizontalAlignment="Right" Width="250" Margin="10,10,10,10" Height="25" Click="активные_сообщения_Click">
+                    <TextBlock FontFamily="arial"><Run Text="Активные сообщения"/></TextBlock>
+                </Button>
+                <Button x:Name="оси_главного_движения"  HorizontalAlignment="Right" Width="250" Margin="10,10,10,10" Height="25" Click="оси_главного_движения_Click">
+                    <TextBlock FontFamily="arial"><Run Text="Оси главного движения"/></TextBlock>
+                </Button>
+                <Button x:Name="оси_движения_фрезерной_головы"  HorizontalAlignment="Right" Width="250" Margin="10,10,10,10" Height="25" Click="оси_движения_фрезерной_головы_Click">
+                    <TextBlock FontFamily="arial"><Run Text="Оси движения фрезерной головы"/></TextBlock>
+                </Button>
+                <Image Source="Resources/оси главного движения.png" Width="160" Height="40" Margin="10,-125,10,10" HorizontalAlignment="Left"></Image>
+                <Image Source="Resources/оси движения фрезерной головы.png" Width="215" Height="40" Margin="10,-42.5,10,10" HorizontalAlignment="Left"></Image>
+            </StackPanel>
+            <StackPanel x:Name="таблица_значениев_компонентов" Grid.Column="1" Grid.Row="2">
+                <DataGrid x:Name="заглушка" Width="500" Height="645"/>
+                <DataGrid x:Name="таблица_двигатели" Width="500" Height="645" AutoGenerateColumns="False" ItemsSource="{Binding}" Margin="0,-645,0,0">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Для привода какой оси этот двигатель" Width="*" Binding="{Binding [Для привода оси]}"/>
+                        <DataGridTextColumn Header="Текущая температура этого двигателя" Width="*" Binding="{Binding [Текущая температура]}"/>
+                        <DataGridTextColumn Header="Время снятия температуры этого двигатея" Width="*" Binding="{Binding [Время снятия температуры]}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <DataGrid x:Name="таблица_активные_сообщения" Width="500" Height="645" AutoGenerateColumns="False" ItemsSource="{Binding}" Margin="0,-645,0,0">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Вид сообщения" Width="*" Binding="{Binding [Вид]}"/>
+                        <DataGridTextColumn Header="Время сообщения" Width="*" Binding="{Binding [Время]}"/>
+                        <DataGridTextColumn Header="Канал сообщения" Width="*" Binding="{Binding [Канал]}"/>
+                        <DataGridTextColumn Header="Номер сообщения" Width="*" Binding="{Binding [Номер]}"/>
+                        <DataGridTextColumn Header="Текст сообщения" Width="*" Binding="{Binding [Текст]}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <DataGrid x:Name="таблица_оси_главного_движения" Width="500" Height="645" AutoGenerateColumns="False" ItemsSource="{Binding}" Margin="0,-645,0,0">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Наименование оси" Width="*" Binding="{Binding [Название]}"/>
+                        <DataGridTextColumn Header="Положение по этой оси" Width="*" Binding="{Binding [Положение]}"/>
+                        <DataGridTextColumn Header="Описание оси" Width="*" Binding="{Binding [Описание]}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <DataGrid x:Name="таблица_оси_движения_фрезерной_головы" Width="500" Height="645" AutoGenerateColumns="False" ItemsSource="{Binding}" Margin="0,-645,0,0">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Наименование оси" Width="*" Binding="{Binding [Название]}"/>
+                        <DataGridTextColumn Header="Положение по этой" Width="*" Binding="{Binding [Положение]}"/>
+                        <DataGridTextColumn Header="Описание оси" Width="*" Binding="{Binding [Описание]}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+            <StackPanel x:Name="отображение_графика_температуры" Grid.Column="0" Grid.Row="2">
+                <DataGrid x:Name="заглушка_графика" Width="645" Height="645"/>
+                <ScottPlot:WpfPlot x:Name="итоговый_график" Width="645" Height="645" Margin="0,-645,0,0"/>
+            </StackPanel>
+        </Grid>
+
+    </ScrollViewer>
+</Window>
